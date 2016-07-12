@@ -1,0 +1,68 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://atlas.hashicorp.com/search.
+  config.vm.define "web", primary: true do |web|
+      
+  	web.vm.box = "sbeliakou/centos-6.7-x86_64"
+	web.vm.hostname = "web"
+	web.vm.synced_folder "sources/", "/mnt/share",
+		owner: "vagrant", group: "root",
+		create: true
+	web.vm.network "private_network", ip: "192.168.56.131"
+	web.vm.provider "Virtualbox" do |machine|
+		machine.name = "web"
+		machine.Customize ["modifyvm", :id, "--memory", 512]
+		machine.cpus = 1
+	end
+	web.vm.provision "shell", inline: "/bin/bash /vagrant/web.sh"
+  end
+
+
+
+  config.vm.define "app", primary: true do |app|
+  	app.vm.box = "sbeliakou/centos-6.7-x86_64"
+	app.vm.hostname = "app"
+	app.vm.synced_folder "sources/", "/mnt/share",
+		owner: "vagrant", group: "root",
+		create: true
+  	app.vm.network "private_network", ip: "192.168.56.132"
+	app.vm.provider "Virtualbox" do |machine|
+		machine.name = "app"
+		machine.Customize ["modifyvm", :id, "--memory", 1024]
+		machine.Customize ["modifyvm", :id, "--cpuexecutioncap", "35"]
+	end
+	app.vm.provision "shell", inline: "/bin/bash /vagrant/app.sh"
+  end
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Example for VirtualBox:
+  #
+  # config.vm.provider "virtualbox" do |vb|
+     # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  
+     # Customize the amount of memory on the VM:
+  #   vb.memory = "1024"
+  # end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+   config.vm.provision "shell", inline: <<-SHELL
+	yum install -y wget tar	
+   SHELL
+end
