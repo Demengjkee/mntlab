@@ -2,7 +2,7 @@
 
 \# | Issue | How to find | Time to find | how to fix | Time to fix
 --- | --- | --- | --- | --- | ---
-1 | Wrong virtual hosts handles requests | `curl -ILv 192.168.56.10` <br/> `less /etc/httpd/conf/httpd.conf` | 20m | Remove wrong vitual host, make vhost from `vhost.conf` handle all requests. | 2h
+1 | Redirect to `http://mntlab/` | `curl -ILv 192.168.56.10` <br/> `less /etc/httpd/conf/httpd.conf` | 20m | Remove wrong vitual host, make vhost from `vhost.conf` handle all requests. | 2h
 2 | Mod_jk is not working | `curl -ILv 192.168.56.10` <br/> `less /var/log/httpd/modjk.log` | 10m | Fix worker.properties | 20m
 3 | Bad CATALINA_HOME for tomcat | `/etc/init.d/tomcat start` <br/> `less /home/tomcat/.bashrc` | 10m | remove CATALINA_HOME | 10m
 4 | bad java vesion installed | `/etc/init.d/tomcat start` <br/> `less logs/catalina.out` | 5m | set proper JAVA_HOME for user tomcat | 5m
@@ -19,6 +19,6 @@
 * Where is JAVA_HOME and what is it? `/usr/`(configured by alternatives) or `/opt/oracle/java/x64/jdk1.7.0_79`; `JAVA_HOME` is dir where `bin/java`located
 * Where is tomcat installed? `/opt/apache/tomcat/current`
 * What is CATALINA_HOME? dir where tomcat files are located (i.e. `/opt/apache/tomcat/current`) 
-* What users run httpd and tomcat processes? How is it configured? Apache and tomcat, run command with `su - <user> -c "<command>"` or `sudo -u <user> <command>`
+* What users run httpd and tomcat processes? How is it configured? __root__(httpd master) __apache__(httpd slaves) and __tomcat__, run command with `su - <user> -c "<command>"` or `sudo -u <user> <command>`
 * What configuration files are used to make components work with each other? `worker.properties`; `vhost.conf`
-* What does it mean: “load average: 1.18, 0.95, 0.83”? System load averages is the average number of processes that are either in a runnable or uninterruptable state. Max 1 for 1 CPU. So 1.18 means that last minute avarage load was 0.295 for system with 4 CPUs
+* What does it mean: “load average: 1.18, 0.95, 0.83”? System load averages is the average number of processes that are either in a runnable or uninterruptable state. Each process witch is __ready for execution__ or __executing__ and also processes in suck states as __waiting for disk__ adds 1 to load
