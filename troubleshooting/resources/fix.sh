@@ -8,6 +8,7 @@ apachectl restart
 
 chown tomcat:tomcat /opt/apache/tomcat/current/logs/
 cp -f /vagrant/resources/tomcat /etc/init.d/
+ln -s /opt/oracle/java/x64/jdk1.7.0_79 /opt/oracle/java/current
 cp -f /vagrant/resources/.bashrc /home/tomcat/
 
 chattr -i /etc/sysconfig/iptables

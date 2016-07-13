@@ -6,4 +6,4 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
-export JAVA_HOME=/opt/oracle/java/x64/jdk1.7.0_79
+export JAVA_HOME=/opt/oracle/java/current
