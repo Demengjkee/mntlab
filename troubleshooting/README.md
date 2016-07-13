@@ -21,4 +21,4 @@
 * What is CATALINA_HOME? dir where tomcat files are located (i.e. `/opt/apache/tomcat/current`) 
 * What users run httpd and tomcat processes? How is it configured? __root__(httpd master) __apache__(httpd slaves) and __tomcat__, run command with `su - <user> -c "<command>"` or `sudo -u <user> <command>`
 * What configuration files are used to make components work with each other? `worker.properties`; `vhost.conf`
-* What does it mean: “load average: 1.18, 0.95, 0.83”? System load averages is the average number of processes that are either in a runnable or uninterruptable state. Each process witch is __ready for execution__ or __executing__ and also processes in suck states as __waiting for disk__ adds 1 to load
+* What does it mean: “load average: 1.18, 0.95, 0.83”? System load averages is the average number of processes that are either in a runnable or uninterruptable state. Each process witch is __ready for execution__ or __executing__ and also processes in such states as __waiting for disk__ adds 1 to load
