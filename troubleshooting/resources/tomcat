@@ -10,16 +10,24 @@ RETVAL=0
 start()
 {
   echo -n "Starting tomcat"
-  su - tomcat -c "/opt/apache/tomcat/current/bin/startup.sh"  > /dev/null
-  success
+  su - tomcat -c "/opt/apache/tomcat/current/bin/startup.sh" > /dev/null
+  if [ $? -eq 0 ];then  
+  	success
+  else
+	failure
+  fi
   echo
 }
 
 stop()
 {
   echo -n "Stopping tomcat"
-  su - tomcat -c "/opt/apache/tomcat/current/bin/shutdown.sh"   > /dev/null
-  success
+  su - tomcat -c "/opt/apache/tomcat/current/bin/shutdown.sh" > /dev/null
+  if [ $? -eq 0 ];then
+        success
+  else
+        failure
+  fi
   echo
 }
 
@@ -43,7 +51,7 @@ restart)
         start
         ;;
 *)
-        echo $"Usage: $0 {start|stop|status|restart}"
+        echo "Usage: $0 {start|stop|status|restart}"
         exit 1
 esac
 
