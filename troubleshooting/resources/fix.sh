@@ -16,3 +16,5 @@ cp -f /vagrant/resources/.bashrc /home/tomcat/
 cp -f /vagrant/resources/server.xml /opt/apache/tomcat/current/conf/
 chkconfig tomcat on
 /etc/init.d/tomcat start
+
+ln -s /opt/apache/tomcat/current/logs/ /var/log/tomcat
