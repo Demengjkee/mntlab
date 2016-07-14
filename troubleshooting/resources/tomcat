@@ -9,9 +9,11 @@ RETVAL=0
 
 start()
 {
+  su - tomcat -c "/opt/apache/tomcat/current/bin/startup.sh" #> /dev/null 
+  sleep 1
   echo -n "Starting tomcat"
-  su - tomcat -c "/opt/apache/tomcat/current/bin/startup.sh" 
-  if [ $? -eq 0 ];then  
+  ps -eo command | grep tomcat | grep -v "tomcat start" | grep -v grep > /dev/null
+  if [ $? -eq 0 ]; then
   	success
   else
 	failure
@@ -21,9 +23,11 @@ start()
 
 stop()
 {
+  su - tomcat -c "/opt/apache/tomcat/current/bin/shutdown.sh" #> /dev/null
+  sleep 1
   echo -n "Stopping tomcat"
-  su - tomcat -c "/opt/apache/tomcat/current/bin/shutdown.sh"
-  if [ $? -eq 0 ];then
+  ps -eo command | grep tomcat | grep -v "tomcat stop" | grep -v grep > /dev/null
+  if [ $? -eq 1 ]; then
         success
   else
         failure
@@ -33,11 +37,11 @@ stop()
 
 status()
 {
-  ps aux | grep java | grep -v grep > /dev/null
+  ps -eo command | grep tomcat | grep -v "tomcat status" | grep -v grep > /dev/null
   if [ $? -eq 0 ]; then
-	echo 'tomcat is running'
+	echo 'tomcat is running '$(success)
   else
-	echo 'tomcat is not running'
+	echo 'tomcat is not running '$(failure)
   fi
 }
 

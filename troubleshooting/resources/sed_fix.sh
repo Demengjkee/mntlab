@@ -20,6 +20,7 @@ if [ $? -eq 1 ]; then
 	sed -i '$i-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT' /etc/sysconfig/iptables
 fi
 sed -i 's/192\.168\.56\.10/127\.0\.0\.1/g' /opt/apache/tomcat/current/conf/server.xml
+cp -f /vagrant/resources/tomcat /etc/init.d/
 chkconfig tomcat on
 /etc/init.d/tomcat start
 
