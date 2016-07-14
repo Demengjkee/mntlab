@@ -3,15 +3,16 @@
 \# | Issue | How to find | Time to find | how to fix | Time to fix
 --- | --- | --- | --- | --- | ---
 1 | Redirect to `http://mntlab/` | `curl -ILv 192.168.56.10` <br/> `less /etc/httpd/conf/httpd.conf` | 20m | Remove wrong vitual host, make vhost from `vhost.conf` handle all requests. | 2h
-2 | Mod_jk is not working | `curl -ILv 192.168.56.10` <br/> `less /var/log/httpd/modjk.log` | 10m | Fix worker.properties | 20m
+2 | Mod_jk couldn't connect tomcat | `curl -ILv 192.168.56.10` <br/> `less /var/log/httpd/modjk.log` | 10m | Fix worker.properties | 20m
 3 | Bad CATALINA_HOME for tomcat | `/etc/init.d/tomcat start` <br/> `less /home/tomcat/.bashrc` | 10m | remove CATALINA_HOME | 10m
 4 | bad java vesion installed | `/etc/init.d/tomcat start` <br/> `less logs/catalina.out` | 5m | set proper JAVA_HOME for user tomcat | 5m
 5 | Iptables file cannot be edited | Trying to edit iptables <br/> `lsattr /etc/sysconfig/iptables` | 1h 20m | `chattr -i /etc/sysconfig/iptables` | 10m
 6 | Iptables cannot be started | start iptables | 5m | Add `ESTABLISHED` to `-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT` | 5m
 7 | Iptables allow port 80 | `curl -ILv 192.168.56.10` | 10m | `iptables -I INPUT -p tcp --dport 80 -j ACCEPT` <br/> `iptables-save > /etc/sysconfig/iptables` | 20m
-8 | Tomcat init script | `/etc/init.d/tomcat start` <br/> `ps aux | grep java` <br/> `less /etc/init.d/tomcat` | 5m | check status code of tomcat startup script | 2h
-9 | tomcat works on 192.168.56.10 instead of localhost | `netstat -tulpn` | 15m | replace 192.168.56.10 to localhost in `/opt/apache/tomcat/current/conf/server.xml` and `/etc/httpd/conf.d/workers.properties` | 10m
+8 | tomcat init script | `/etc/init.d/tomcat start` <br/> `ps aux | grep java` <br/> `less /etc/init.d/tomcat` | 5m | check status code of tomcat startup script | 2h
+9 | tomcat works on 192.168.56.10 instead of 127.0.0.1 | `netstat -tulpn` | 15m | replace 192.168.56.10 to localhost in `/opt/apache/tomcat/current/conf/server.xml` and `/etc/httpd/conf.d/workers.properties` | 10m
 10 | create link for tomcat logs in `/var/log/` | | | `ln -s /opt/apache/tomcat/current/logs/ /var/log/tomcat` | 5m | 
+11 | create link for current java version | | | `ln -s /opt/oracle/java/x64/jdk1.7.0_79 /opt/oracle/java/current` | 5m |
 
 * What java version is installed? `1.7.0_79`
 * How was it installed and configured? downloaded and unpacked archive from oracle website , then configured `java` via `alternatives --config java`
